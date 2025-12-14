@@ -567,20 +567,30 @@ section {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .header {
+    padding: 1rem 5%;
+  }
+
   .header nav {
-    gap: 1rem;
+    gap: 0.8rem;
+    flex-wrap: wrap;
   }
 
   .header nav a {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+  }
+
+  .logo {
+    font-size: 1.2rem;
   }
 
   .hero-content h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
   .typewriter {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .section-title {
@@ -594,5 +604,57 @@ section {
 
   section {
     padding: 3rem 5%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .project-card {
+    padding: 1.5rem;
+  }
+
+  .contact-form {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header nav {
+    gap: 0.5rem;
+  }
+
+  .header nav a {
+    font-size: 0.75rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .typewriter {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .social-links {
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
