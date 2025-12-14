@@ -17,29 +17,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const projects = [
   {
     id: 1,
-    title: 'E-Commerce Platform',
-    description: 'A full-stack e-commerce application with real-time inventory management, secure payment integration, and admin dashboard.',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Redux'],
-    github: 'https://github.com/yourusername/ecommerce',
-    demo: 'https://demo-ecommerce.com'
+    title: 'Portfolio Website',
+    description: 'A modern, responsive portfolio website showcasing my projects, skills, and coding profile. Built with React and Node.js, featuring a clean UI with animated backgrounds, LeetCode stats integration, and a contact form.',
+    technologies: ['React', 'Node.js', 'Express', 'CSS3', 'JavaScript'],
+    github: 'https://github.com/ramith407/my-portfolio',
+    demo: 'https://your-portfolio-demo.com'
   },
   {
     id: 2,
-    title: 'Social Media Dashboard',
-    description: 'Analytics dashboard for social media management with data visualization, scheduling features, and API integrations.',
-    technologies: ['React', 'Express', 'PostgreSQL', 'Chart.js', 'JWT'],
-    github: 'https://github.com/yourusername/social-dashboard',
-    demo: 'https://demo-social.com'
-  },
-  {
-    id: 3,
-    title: 'Task Management System',
-    description: 'Collaborative task management tool with real-time updates, team collaboration features, and progress tracking.',
-    technologies: ['React', 'Firebase', 'Material-UI', 'WebSocket'],
-    github: 'https://github.com/yourusername/task-manager',
-    demo: 'https://demo-tasks.com'
-  },
-
+    title: 'AI-Powered Travel Assistant',
+    description: 'I recently built an AI-powered travel assistant for my engineering project that integrates real-time translation, AR-based navigation, safety alerts, and local insights. I designed the system end-to-end: from identifying the user problem, to building the prototype using Python, OpenCV, and MediaPipe, to validating it with real user scenarios. I also created multiple computer vision mini-projects on my own, such as gesture-controlled games and a hand-gesture-to-text converter using MediaPipe and SVM. These projects reflect my ability to learn fast, experiment independently, and translate ideas into functional prototypes.',
+    technologies: ['Python', 'OpenCV', 'MediaPipe', 'SVM', 'Computer Vision', 'AR'],
+    github: 'https://github.com/ramith407/ai-travel-assistant',
+    demo: 'https://your-travel-assistant-demo.com'
+  }
 ];
 
 // API Routes

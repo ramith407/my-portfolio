@@ -144,22 +144,6 @@ function LeetCodeStats() {
           </div>
         </div>
 
-        {stats.recentSubmissions && stats.recentSubmissions.length > 0 && (
-          <div className="recent-activity">
-            <h4>Recent Submissions</h4>
-            <div className="submissions-list">
-              {stats.recentSubmissions.slice(0, 5).map((submission, index) => (
-                <div key={index} className="submission-item">
-                  <span className="submission-title">{submission.title}</span>
-                  <span className={`submission-status ${submission.status.toLowerCase()}`}>
-                    {submission.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         <div className="stats-footer">
           <p className="last-updated">Last updated: {new Date().toLocaleDateString()}</p>
         </div>
