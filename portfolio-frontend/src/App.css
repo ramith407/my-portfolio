@@ -98,6 +98,53 @@ body {
   transition: color 0.3s;
 }
 
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1001;
+}
+
+.mobile-menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+.mobile-menu-toggle:hover span {
+  background: var(--secondary);
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
 .header nav a::after {
   content: '';
   position: absolute;
@@ -556,6 +603,107 @@ section {
   transform: translateY(-3px);
 }
 
+/* Scroll Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  border: none;
+  border-radius: 50%;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+  transition: all 0.3s;
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.back-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.6);
+}
+
+.back-to-top svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Loading States */
+.loading-container {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+.loading-spinner-projects {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-ring {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-ring:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.spinner-ring:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+
 /* Footer */
 .footer {
   text-align: center;
@@ -571,14 +719,46 @@ section {
     padding: 1rem 5%;
   }
 
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
   .header nav {
-    gap: 0.8rem;
-    flex-wrap: wrap;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    gap: 0;
+    padding: 5rem 2rem 2rem;
+    transition: right 0.3s ease;
+    border-left: 1px solid rgba(0, 255, 255, 0.2);
+    z-index: 1000;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .header nav.nav-open {
+    right: 0;
   }
 
   .header nav a {
-    font-size: 0.85rem;
-    padding: 0.3rem 0;
+    font-size: 1.1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    width: 100%;
+    display: block;
+  }
+
+  .header nav a:last-child {
+    border-bottom: none;
+  }
+
+  .header nav a::after {
+    display: none;
   }
 
   .logo {
@@ -656,5 +836,12 @@ section {
   .social-links {
     flex-wrap: wrap;
     gap: 1rem;
+  }
+
+  .back-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
   }
 }

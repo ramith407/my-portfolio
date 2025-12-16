@@ -13,14 +13,101 @@ function App() {
     message: ''
   });
   const [submitStatus, setSubmitStatus] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+
+  // Smooth scroll handler
+  const handleSmoothScroll = (e, targetId) => {
+    e.preventDefault();
+    const element = document.querySelector(targetId);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setMobileMenuOpen(false);
+  };
+
+  // Show/hide back-to-top button based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      // #region agent log
+      const scrollY = window.scrollY;
+      const shouldShow = scrollY > 300;
+      fetch('http://127.0.0.1:7242/ingest/f7ed1347-4654-4dc7-9fef-11283b2b7189',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.jsx:35',message:'Scroll position check',data:{scrollY,shouldShow},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      setShowBackToTop(scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-visible');
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/f7ed1347-4654-4dc7-9fef-11283b2b7189',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.jsx:50',message:'Section visible',data:{sectionId:entry.target.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+          // #endregion
+        }
+      });
+    }, observerOptions);
+
+    // Use setTimeout to ensure DOM is ready
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        section.classList.add('fade-in');
+        observer.observe(section);
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => observer.unobserve(section));
+    };
+  }, [projects]);
 
   // Fetch projects from backend
   useEffect(() => {
+    setProjectsLoading(true);
     fetch(`${API_URL}/api/projects`)
       .then(res => res.json())
-      .then(data => setProjects(data))
-      .catch(err => console.error('Error fetching projects:', err));
+      .then(data => {
+        setProjects(data);
+        setProjectsLoading(false);
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/f7ed1347-4654-4dc7-9fef-11283b2b7189',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.jsx:70',message:'Projects loaded',data:{projectCount:data.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+        // #endregion
+      })
+      .catch(err => {
+        console.error('Error fetching projects:', err);
+        setProjectsLoading(false);
+      });
   }, []);
+
+  // Back to top handler
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -74,13 +161,28 @@ function App() {
       {/* Header */}
       <header className="header">
         <div className="logo">&lt;Portfolio/&gt;</div>
-        <nav>
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#leetcode">LeetCode</a>
-          <a href="#projects">Projects</a>
-          <a href="#skills">Skills</a>
-          <a href="#contact">Contact</a>
+        <button 
+          className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        {mobileMenuOpen && (
+          <div 
+            className="mobile-menu-overlay"
+            onClick={() => setMobileMenuOpen(false)}
+          ></div>
+        )}
+        <nav className={mobileMenuOpen ? 'nav-open' : ''}>
+          <a href="#home" onClick={(e) => handleSmoothScroll(e, '#home')}>Home</a>
+          <a href="#about" onClick={(e) => handleSmoothScroll(e, '#about')}>About</a>
+          <a href="#leetcode" onClick={(e) => handleSmoothScroll(e, '#leetcode')}>LeetCode</a>
+          <a href="#projects" onClick={(e) => handleSmoothScroll(e, '#projects')}>Projects</a>
+          <a href="#skills" onClick={(e) => handleSmoothScroll(e, '#skills')}>Skills</a>
+          <a href="#contact" onClick={(e) => handleSmoothScroll(e, '#contact')}>Contact</a>
         </nav>
       </header>
 
@@ -90,8 +192,8 @@ function App() {
           <h1 className="glitch" data-text="RAMITH KR">RAMITH KR</h1>
           <p className="typewriter">DSA | UI/UX Enthusiast | Problem Solver</p>
           <div className="hero-buttons">
-            <a href="#projects" className="btn-primary">View My Work</a>
-            <a href="#contact" className="btn-secondary">Get In Touch</a>
+            <a href="#projects" className="btn-primary" onClick={(e) => handleSmoothScroll(e, '#projects')}>View My Work</a>
+            <a href="#contact" className="btn-secondary" onClick={(e) => handleSmoothScroll(e, '#contact')}>Get In Touch</a>
           </div>
         </div>
         <div className="scroll-indicator">
@@ -121,6 +223,7 @@ function App() {
         </div>
       </section>
 
+
       {/* LeetCode Section */}
       <section id="leetcode" className="leetcode-section">
         <div className="container">
@@ -134,7 +237,16 @@ function App() {
         <div className="container">
           <h2 className="section-title">Featured Projects</h2>
           <div className="projects-grid">
-            {projects.length > 0 ? (
+            {projectsLoading ? (
+              <div className="loading-container">
+                <div className="loading-spinner-projects">
+                  <div className="spinner-ring"></div>
+                  <div className="spinner-ring"></div>
+                  <div className="spinner-ring"></div>
+                </div>
+                <p className="loading-text">Loading projects...</p>
+              </div>
+            ) : projects.length > 0 ? (
               projects.map((project) => (
                 <div key={project.id} className="project-card">
                   <div className="project-header">
@@ -157,7 +269,7 @@ function App() {
                 </div>
               ))
             ) : (
-              <p className="loading">Loading projects...</p>
+              <p className="loading">No projects found.</p>
             )}
           </div>
         </div>
@@ -173,7 +285,6 @@ function App() {
               <div className="skill-tags">
                 <span>React</span>
                 <span>JavaScript</span>
-                <span>TypeScript</span>
                 <span>HTML5</span>
                 <span>CSS3</span>
                 <span>Tailwind</span>
@@ -185,8 +296,6 @@ function App() {
                 <span>Node.js</span>
                 <span>Express</span>
                 <span>Python</span>
-                <span>MongoDB</span>
-                <span>PostgreSQL</span>
                 <span>REST API</span>
               </div>
             </div>
@@ -196,9 +305,6 @@ function App() {
                 <span>Git</span>
                 <span>Docker</span>
                 <span>AWS</span>
-                <span>CI/CD</span>
-                <span>Jest</span>
-                <span>Webpack</span>
               </div>
             </div>
           </div>
@@ -257,6 +363,19 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button 
+          className="back-to-top"
+          onClick={scrollToTop}
+          aria-label="Back to top"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 15l-6-6-6 6"/>
+          </svg>
+        </button>
+      )}
 
       {/* Footer */}
       <footer className="footer">
