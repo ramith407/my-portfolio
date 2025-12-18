@@ -9,7 +9,31 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+const allowedOrigins = process.env.NODE_ENV === 'production' 
+  ? [
+      process.env.FRONTEND_URL,
+      'https://your-portfolio-domain.vercel.app', // Replace with actual domain
+      'https://your-portfolio-domain.netlify.app'  // If using Netlify
+    ]
+  : [
+      'http://localhost:3000',
+      'http://127.0.0.1:3000'
+    ];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('Blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -100,8 +124,8 @@ app.post('/api/contact', async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    // Log to console (in production, save to database)
-    console.log('Contact form submission:', { name, email, message, timestamp: new Date() });
+    // Log to console (in production, save to database). Do not log full message to avoid PII in logs.
+    console.log('Contact form submission:', { name, email, timestamp: new Date() });
 
     res.status(200).json({ 
       message: 'Message sent successfully',

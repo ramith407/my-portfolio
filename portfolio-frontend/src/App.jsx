@@ -37,11 +37,7 @@ function App() {
   // Show/hide back-to-top button based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      // #region agent log
       const scrollY = window.scrollY;
-      const shouldShow = scrollY > 300;
-      fetch('http://127.0.0.1:7242/ingest/f7ed1347-4654-4dc7-9fef-11283b2b7189',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.jsx:35',message:'Scroll position check',data:{scrollY,shouldShow},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-      // #endregion
       setShowBackToTop(scrollY > 300);
     };
 
@@ -60,9 +56,6 @@ function App() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('fade-in-visible');
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/f7ed1347-4654-4dc7-9fef-11283b2b7189',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.jsx:50',message:'Section visible',data:{sectionId:entry.target.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-          // #endregion
         }
       });
     }, observerOptions);
@@ -88,12 +81,9 @@ function App() {
     setProjectsLoading(true);
     fetch(`${API_URL}/api/projects`)
       .then(res => res.json())
-      .then(data => {
+        .then(data => {
         setProjects(data);
         setProjectsLoading(false);
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/f7ed1347-4654-4dc7-9fef-11283b2b7189',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.jsx:70',message:'Projects loaded',data:{projectCount:data.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
       })
       .catch(err => {
         console.error('Error fetching projects:', err);

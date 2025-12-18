@@ -9,8 +9,8 @@ function LeetCodeStats() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Replace with your LeetCode username
-  const username = 'ramith407';
+  // LeetCode username (override via env var for deployment)
+  const username = process.env.REACT_APP_LEETCODE_USER || 'ramith407';
 
   useEffect(() => {
     fetchLeetCodeStats();
