@@ -2,6 +2,11 @@
 
 Modern, responsive portfolio website showcasing projects, skills, and coding profiles with real-time LeetCode statistics integration.
 
+## 🌐 Live Demo
+
+- **Frontend**: https://portfolio-frontend-black-zeta.vercel.app
+- **Backend API**: https://my-portfolio-brown-eta.vercel.app
+
 ## ✨ Features
 
 - 🎨 Modern, responsive design with animated backgrounds
@@ -97,6 +102,10 @@ To get a local copy up and running, follow these simple steps.
    npm start
    ```
 
-## 📧 Contact
+## 👤 Author
 
-For any inquiries, please email me at [your-email@gmail.com](mailto:your-email@gmail.com).
+**Ramith Naik**
+- GitHub: [@ramith407](https://github.com/ramith407)
+- Email: ramithnaik8@gmail.com
+- LeetCode: [ramith407](https://leetcode.com/ramith407)
+- Portfolio: https://portfolio-frontend-black-zeta.vercel.app

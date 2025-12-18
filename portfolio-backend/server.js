@@ -12,7 +12,8 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = process.env.NODE_ENV === 'production' 
   ? [
       process.env.FRONTEND_URL,
-      'https://my-portfolio-brown-eta.vercel.app' // Your backend URL (for self-testing)
+      'https://portfolio-frontend-black-zeta.vercel.app',
+      'https://my-portfolio-brown-eta.vercel.app'
     ]
   : [
       'http://localhost:3000',
@@ -21,7 +22,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
+    // Allow requests with no origin (Postman, curl, direct browser access)
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) !== -1) {
@@ -31,7 +32,9 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -188,6 +191,8 @@ app.delete('/api/projects/:id', (req, res) => {
 // LeetCode Stats Endpoint
 app.get('/api/leetcode/:username', async (req, res) => {
   const { username } = req.params;
+  
+  console.log(`Fetching LeetCode stats for: ${username}`); // Add logging
 
   try {
     // GraphQL query to fetch LeetCode user stats
