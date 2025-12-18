@@ -12,8 +12,7 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = process.env.NODE_ENV === 'production' 
   ? [
       process.env.FRONTEND_URL,
-      'https://your-portfolio-domain.vercel.app', // Replace with actual domain
-      'https://your-portfolio-domain.netlify.app'  // If using Netlify
+      'https://my-portfolio-xyz.vercel.app' // Replace with your actual frontend URL
     ]
   : [
       'http://localhost:3000',
