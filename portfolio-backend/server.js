@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = process.env.NODE_ENV === 'production' 
   ? [
       process.env.FRONTEND_URL,
-      'https://my-portfolio-xyz.vercel.app' // Replace with your actual frontend URL
+      'https://my-portfolio-brown-eta.vercel.app' // Your backend URL (for self-testing)
     ]
   : [
       'http://localhost:3000',
